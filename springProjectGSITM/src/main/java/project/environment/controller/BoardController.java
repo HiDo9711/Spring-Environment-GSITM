@@ -1,10 +1,8 @@
-package project.environment.Controller;
+package project.environment.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class BoardController {
 	 @GetMapping("/list")
-	   public String list() {
-	      return "board_list";
-	   }
+	 public String list() {
+		 return "board_list";
+	 }
 }
