@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Board List</title>
+</head>
+<body>
+    <h2>Board List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Board Number</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Create Date</th>
+                <th>Modify Date</th>
+                <th>Hit Count</th>
+                <th>User</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="board : ${boards}">
+                <td th:text="${board.boardNum}"></td>
+                <td th:text="${board.title}"></td>
+                <td th:text="${board.boardContent}"></td>
+                <td th:text="${board.createDate}"></td>
+                <td th:text="${board.modifyDate}"></td>
+                <td th:text="${board.hitCount}"></td>
+                <td th:text="${board.user.username}"></td>
+                <td th:text="${board.region.regionName}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
