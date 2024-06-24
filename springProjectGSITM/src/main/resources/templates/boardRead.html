@@ -29,6 +29,25 @@
             <!-- 뒤로 가기 버튼 -->
             <a href="/board/list" class="back-button">뒤로 가기</a>
         </div>
+		
+		<!--해당 글에 댓글 보여지기		-->
+		<div class="card my-3" th:each="comment: ${board.CommentsList}">
+			<div class="card-body">
+			<div class="card-text" style="white-space:pre-line;" th:text="${comment.Comments_Content}"></div>
+			<div class="d-flex justify-content-end">
+				<div class="badge bg-light text-dark p-2 text-start"> 
+					<div th:text="${#temporals.format(comment.Create_Date, 'yyyy-MM-dd HH:mm')}"></div>		      
+				</div>
+			</div>
+			</div>
+		</div>
+
+		
+		<!-- 답변 작성-->
+		<form th:action="@{|/comments/create/${board.Board_Num}|}" method="post" class="my-3">
+			<textarea name="content" id="content" rows="10" class="form-control"></textarea>
+			<input type="submit" value="댓글 등록" class="btn btn-primary my-2"> 
+		</form>
     </div>
 </body>
 </html>

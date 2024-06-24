@@ -42,7 +42,9 @@ public class Board {
     
     @Column(length = 300)
     private String Filepath;
-
+    
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+	private List<Comments> commentsList;
     
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
@@ -51,7 +53,5 @@ public class Board {
 //    @ManyToOne
 //    @JoinColumn(name = "region_id")
 //    private Region region;
-//
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
-//    private List<Comments> commentsList;
+
 }
