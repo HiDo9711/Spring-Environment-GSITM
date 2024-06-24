@@ -31,12 +31,19 @@ public class Board {
     @Column(nullable = false)
     private LocalDateTime Create_Date;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime Modify_Date;
 
     @Column(nullable = false)
     private Long Hit_Count;
+    
+    @Column(length = 150)
+    private String Filename;
+    
+    @Column(length = 300)
+    private String Filepath;
 
+    
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private Users user;
