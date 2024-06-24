@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Board List</title>
+    <title>게시판 목록</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h2>Board List</h2>
+    <h2>게시판 목록</h2>
     <table class="board-table">
         <thead>
             <tr>
@@ -19,17 +19,44 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="board : ${boards}" th:onclick="'/board/read/' + ${board.boardNum}">
-                <td th:text="${board.boardNum} ?: ''"></td>
-                <td><a th:href="@{/board/read/{id}(id=${board.boardNum})}" th:text="${board.title} ?: ''"></a></td>
-                <td th:text="${board.boardContent} ?: ''"></td>
-                <td th:text="${board.createDate != null ? #temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
-                <td th:text="${board.modifyDate != null ? #temporals.format(board.modifyDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
-                <td th:text="${board.hitCount != null ? board.hitCount : 0}"></td>
-            </tr>
+			<tr th:each="board, loop : ${paging}" th:onclick="'/board/read/' + ${board.Board_Num}">
+			    <td th:text="${board.Board_Num} ?: ''"></td>
+			    <td><a th:href="@{/board/read/{id}(id=${board.Board_Num})}" th:text="${board.Title} ?: ''"></a></td>
+			    <td th:text="${board.Board_Content} ?: ''"></td>
+			    <td th:text="${board.Create_Date != null ? #temporals.format(board.Create_Date, 'yyyy-MM-dd HH:mm') : ''}"></td>
+				<td th:text="${board.Modify_Date != null ? #temporals.format(board.Modify_Date, 'yyyy-MM-dd HH:mm') : ''}"></td>
+				<!--
+				<td>
+					<span th:if="${board.Modify_Date != null}" th:text="${#temporals.format(board.Modify_Date, 'yyyy-MM-dd HH:mm')}"></span>
+				    <span th:unless="${board.Modify_Date != null}">-</span>
+				</td>
+				-->
+				<td th:text="${board.Hit_Count != null ? board.Hit_Count : 0}"></td>
+				
+			</tr>
         </tbody>
     </table>
-
+	<!--페이지 이동 버튼-->
+	<div th:if="${!paging.isEmpty()}">
+	    <ul class="pagination justify-content-center">
+			<li class="page-item" th:if="${paging.hasPrevious}" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+			    <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+			        <span>이전</span>
+			    </a>
+			</li>
+	        <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+		th:if="${page >= paging.number-5 and page <= paging.number+5}"
+	            th:classappend="${page == paging.number} ? 'active'" 
+	            class="page-item">
+	            <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+	        </li>
+			<li class="page-item" th:if="${paging.hasNext}" th:classappend="${!paging.hasNext} ? 'disabled'">
+				<a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+					<span>다음</span>
+				</a>
+			</li>
+	    </ul>
+	</div>
     <!-- 글 작성하기 버튼 -->
     <a href="/board/write" class="write-button">글 작성하기</a>
 </body>

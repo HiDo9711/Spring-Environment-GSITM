@@ -1,8 +1,13 @@
 package project.environment.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -16,33 +21,52 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public List<Board> getList() {
-        return boardRepository.findAll();
+    public Page<Board> getList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return this.boardRepository.findAll(pageable);
     }
     
-    public Board save(Board board) {
+    public Board create(Board board) {
         board.setCreate_Date(LocalDateTime.now());
-        board.setModify_Date(LocalDateTime.now());
+        board.setModify_Date(LocalDateTime.now()); // 초기 생성 시 수정 일자는 null로 설정
         board.setHit_Count(0L); // 새로 작성된 글의 조회수 초기화
         return boardRepository.save(board);
     }
+
     
     public Board getBoardById(Integer id) {
         return boardRepository.findById(id)
                               .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
     }
+    
+    
+    @Transactional
+    public Board getBoardAndIncreaseHitCount(Integer id) {
+        Board board = boardRepository.findById(id)
+                                      .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        Long currentHitCount = board.getHit_Count();
+        board.setHit_Count(currentHitCount + 1); // 조회수 증가
+        return boardRepository.save(board); // 수정된 엔티티 반환
+    }
+
 
     @Transactional
-    public void editBoard(Integer id, String title, String boardContent) {
+    public void edit(Integer id, String title, String boardContent) {
         Board board = boardRepository.findById(id)
                                      .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         board.setTitle(title);
         board.setBoard_Content(boardContent);
-        // 수정 날짜 업데이트 등 필요한 로직 추가 가능
+        board.setModify_Date(LocalDateTime.now());
+        // 게시글 수정 시 수정일자 업데이트
     }
+
     
     @Transactional
-    public void deleteBoard(Integer id) {
+    public void delete(Integer id) {
         boardRepository.deleteById(id);
     }
+    
+    
+    
+    
 }
