@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Board List</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Board List</h2>
+    <table class="board-table">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>생성일자</th>
+                <th>수정일자</th>
+                <th>조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="board : ${boards}" th:onclick="'/board/read/' + ${board.boardNum}">
+                <td th:text="${board.boardNum} ?: ''"></td>
+                <td><a th:href="@{/board/read/{id}(id=${board.boardNum})}" th:text="${board.title} ?: ''"></a></td>
+                <td th:text="${board.boardContent} ?: ''"></td>
+                <td th:text="${board.createDate != null ? #temporals.format(board.createDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+                <td th:text="${board.modifyDate != null ? #temporals.format(board.modifyDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+                <td th:text="${board.hitCount != null ? board.hitCount : 0}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 글 작성하기 버튼 -->
+    <a href="/board/write" class="write-button">글 작성하기</a>
+</body>
+</html>
