@@ -2,7 +2,6 @@ package project.environment.service;
 
 import java.util.Optional;
 
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import project.environment.DataNotFoundException;
 import project.environment.Repository.UserRepository;
-import project.environment.entity.User;
+import project.environment.entity.SiteUser;
 
 @RequiredArgsConstructor
 @Service
@@ -18,10 +17,13 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
-	public User create(String loginId, String email, String password) {
-		User user = new User();
+	public SiteUser createUser(String loginId, String name, String email, String password, String regionNum) {
+		SiteUser user = new SiteUser();
 		user.setLoginId(loginId);
+		user.setName(name);
 		user.setEmail(email);
+		user.setPassword(password);
+		user.setRegionNum(regionNum);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(password)); 
 		this.userRepository.save(user);
@@ -29,11 +31,11 @@ public class UserService {
 	}
 
 	//userName 알아오기
-	public User getUser(String loginId) {
-		Optional<User> user = this.userRepository.findByLoginId(loginId);
+	public SiteUser getUser(String loginId) {
+		Optional<SiteUser> siteUser = this.userRepository.findByLoginId(loginId);
 
-		if(user.isPresent()) {
-			return user.get();
+		if(siteUser.isPresent()) {
+			return siteUser.get();
 		}else{
 			throw new DataNotFoundException("siteuser not found");
 

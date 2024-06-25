@@ -51,11 +51,23 @@
       </div>
       <div class="mb-3">
          <label for="region" class="form-label">지역</label>
-         <select th:field="*{region}" class="form-control" id="region">
-            <option value="CHOICE">지역을 선택하세요</option>
-            <option value="seoul">서울특별시</option>
-            <option value="incheon">인천광역시</option>
-            <option value="busan">부산광역시</option>
+         <select th:field="*{regionNum}" class="form-control" id="region">
+            <option value="">지역을 선택하세요</option>
+            <option value="geoje">거제시</option>
+            <option value="golyeong">고령군</option>
+            <option value="gwangju">광주시</option>
+            <option value="danyang">단양군</option>
+            <option value="dongducheon">동두천시</option>
+            <option value="bonghwa">봉화군</option>
+            <option value="sacheon">사천시</option>
+            <option value="yangju">양주시</option>
+            <option value="yecheon">예천군</option>
+            <option value="wando">완도군</option>
+            <option value="jindo">진도군</option>
+            <option value="cheongsong">청송군</option>
+            <option value="paju">파주시</option>
+            <option value="wando">완도군</option>
+            <option value="hampyeong">함평군</option>
          </select>
       </div>
       <button type="submit" class="btn btn-primary">회원가입</button>

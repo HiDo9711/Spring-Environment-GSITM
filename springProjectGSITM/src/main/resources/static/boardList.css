@@ -27,6 +27,13 @@ body {
     text-align: center;
 }
 
+/* 이미지 파일의 크기에 관계없이 한 행의 크기를 고정하는 방향으로*/
+.board-table img {
+    max-width: 100px;
+    max-height: 100px;
+    display: block;
+    margin: 0 auto; /* 이미지를 가운데 정렬 */
+}
 
 /* 글 작성 버튼 스타일링 */
 .write-button {

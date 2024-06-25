@@ -1,12 +1,9 @@
 package project.environment.controller;
 
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +24,7 @@ public class UserController {
 
 	//UserCreateForm 내용 검증, 에러 처리
 	@PostMapping("/signup")
-	public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
+	public String signup(@Valid @ModelAttribute UserCreateForm userCreateForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "signup";
 		}
@@ -35,7 +32,7 @@ public class UserController {
 		//회원가입 시 중복 처리
 		try { 
 		//중복되지 않은 이름,이메일,비밀번호를 넣었을 때 생성
-			userService.create(userCreateForm.getLoginId(), userCreateForm.getEmail(), userCreateForm.getPassword1());
+			userService.createUser(userCreateForm.getLoginId(),userCreateForm.getName(), userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getRegionNum());
 		//사용자 id또는 이메일 주소가 이미 존재할 경우에 발생하는 예외. 
 		} catch (DataIntegrityViolationException e) { 
 			// 데이터 무결성 위반 예외 발생 시
