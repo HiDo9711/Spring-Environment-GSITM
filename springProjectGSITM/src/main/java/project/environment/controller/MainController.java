@@ -8,6 +8,6 @@ public class MainController {
 	// localhost:8081 으로 접근하면 main으로 보여줄 page setting 
 	@GetMapping("/")
 	public String root() {
-		return "redirect:/board/list";
+		return "redirect:/main";
 	}
 }
