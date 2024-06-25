@@ -10,7 +10,7 @@ body {
 /* 테이블 스타일링 */
 .board-table {
     width: 80%;
-    margin: 0 auto;
+    margin: 20px auto; /* 위아래 여백을 동시에 주기 위해 수정 */
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -22,19 +22,59 @@ body {
 }
 
 .board-table th {
-    background-color: #f2f2f2;
+    background-color: #9c27b0; /* 파스텔톤 연보라색 */
+    color: white;
     text-align: center;
 }
 
+
 /* 글 작성 버튼 스타일링 */
 .write-button {
-    display: block;
-    background-color: #4CAF50;
+    display: inline-block; /* block에서 inline-block으로 변경하여 가로 정렬 */
+    background-color: #9c27b0; /* 파스텔톤 연보라색 */
     color: white;
     text-align: center;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
-    margin: 20px auto 0; /* 위쪽 여백을 조정하여 테이블 아래에 위치하도록 함 */
+    margin-top: 20px; /* 위쪽 여백을 조정하여 테이블 아래에 위치하도록 함 */
     width: 150px; /* 버튼 너비 지정 */
+}
+
+.write-button:hover {
+    background-color: #7b1fa2; /* 호버 시 배경색 변화 */
+}
+
+/* 페이지네이션 스타일링 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none; /* 점 표시 없애기 */
+    padding: 0; /* 리스트의 padding 제거 */
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+.pagination .page-item {
+    margin: 0 5px;
+}
+
+.pagination .page-link {
+    padding: 8px 12px;
+    color: #9c27b0; /* 파스텔톤 연보라색 */
+    background-color: #f3e5f5; /* 배경색 */
+    border: 1px solid #9c27b0;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.pagination .page-link:hover {
+    background-color: #e1bee7; /* 호버 시 배경색 */
+    color: #7b1fa2; /* 호버 시 텍스트 색상 */
+}
+
+.pagination .active .page-link {
+    background-color: #7b1fa2; /* 활성화된 페이지 배경색 */
+    color: #fff; /* 활성화된 페이지 텍스트 색상 */
+    border-color: #7b1fa2;
+    pointer-events: none;
 }

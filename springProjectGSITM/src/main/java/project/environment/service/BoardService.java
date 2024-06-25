@@ -2,8 +2,6 @@ package project.environment.service;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.ui.Model;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import project.environment.Repository.BoardRepository;

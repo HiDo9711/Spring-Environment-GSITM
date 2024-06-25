@@ -1,7 +1,5 @@
 package project.environment.Repository;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +13,5 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 //    Board findByTitleAndBoard_Content(String title, String board_Content);
 //    List<Board> findByTitleLike(String title);
 	Page<Board> findAll(Pageable pageable);
+	
 }
