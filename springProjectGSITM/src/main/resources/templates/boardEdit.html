@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>게시글 수정</h2>
+        <form action="/board/edit" method="post">
+            <input type="hidden" id="id" name="id" th:value="${board.Board_Num}">
+            <label for="Title">제목:</label><br>
+            <input type="text" id="Title" name="title" th:value="${board.Title}" required><br>
+            
+            <label for="Board_Content">내용:</label><br>
+            <textarea id="boardContent" name="boardContent" required th:text="${board.Board_Content}"></textarea><br>
+            
+            <button type="submit" class="edit-button">수정 완료</button>
+         <!-- 뒤로 가기 버튼 -->
+         <!-- <button class="back-button">뒤로 가기</button> -->
+		 <a href="javascript:history.back()">뒤로 가기</a>
+        </form>
+    </div>
+</body>
+</html>

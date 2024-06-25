@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>글 작성</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>글 작성</h2>
+        <form action="/board/write" method="post" enctype="multipart/form-data">
+            <label for="title">제목:</label><br>
+            <input type="text" id="title" name="Title" required><br>
+            <label for="boardContent">내용:</label><br>
+            <textarea id="boardContent" name="Board_Content" required></textarea><br>
+			<input type="file" name="file"> <!--multiple="multiple"/> -->
+            <!-- 작성 완료와 뒤로 가기 버튼 -->
+            <div class="buttons">
+                <button type="submit">작성 완료</button>
+                <a href="javascript:history.back()">뒤로 가기</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
