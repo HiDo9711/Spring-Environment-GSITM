@@ -1,103 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}">
+	<div layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <title>수질 모니터링</title>
-     <!-- 추가적인 CSS 파일 링크 -->
-    <link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="main.css">
     <!-- jQuery CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- jQuery UI Datepicker CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <style>
-        .header {
-            display: flex;
-            justify-content: flex-end;
-            padding: 10px;
-            background-color: #f2f2f2;
-            border-bottom: 1px solid #ccc;
-        }
-        .header button {
-            margin-left: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .header button:hover {
-            background-color: #0056b3;
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            width: 40%;
-            height: 200px;
-            margin-top: 20px;
-            background-image: url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDAxMDNfMTg5%2FMDAxNzA0MjY2OTUyNTkx.EddcBoGTRsV-G2Ot76Zas5OBiyEQMZwlx6Eg5isLDVEg.sdf7JgrHm985GYQp9NfKDEXQzfZLsCPReER1utK9Fg4g.GIF.lys4565%2F1696412096667.gif&type=l340_165');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            border: 1px solid black;
-        }
-        .box {
-            flex: 1;
-            border: 1px solid black;
-            padding: 5px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8); /* 내용이 더 잘 보이도록 배경색 추가 */
-        }
-        .box p {
-            margin: 10px 0;
-        }
-        .title {
-            font-weight: bold;
-        }
-        .value {
-            font-weight: bold;
-            font-size: 40px; /* 글꼴 크기 조정 */
-        }
-        .emoji {
-            margin-top: 10px;
-        }
-        .form-container {
-            width: 40%; /* 폼 컨테이너 너비 조정 */
-            margin-top: 20px; /* 위쪽 여백 */
-            border: 1px solid #ccc; /* 테두리 추가 */
-            padding: 20px; /* 내부 여백 */
-            box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
-        }
-        .form-group {
-            margin-bottom: 15px; /* 입력 요소 간 여백 */
-        }
-        .form-group label {
-            display: block; /* 레이블을 블록 요소로 변경 */
-            margin-bottom: 5px; /* 레이블과 입력 요소 간 여백 */
-        }
-        .form-group input,
-        .form-group select {
-            width: calc(100% - 20px); /* 입력 요소 너비 조정 */
-            padding: 10px; /* 내부 여백 */
-            font-size: 16px; /* 글꼴 크기 */
-        }
-        .form-group button {
-            padding: 10px 20px; /* 버튼 내부 여백 */
-            font-size: 16px; /* 버튼 글꼴 크기 */
-            background-color: #007bff; /* 배경색 */
-            color: #fff; /* 글자색 */
-            border: none; /* 테두리 없애기 */
-            cursor: pointer; /* 포인터 커서 */
-        }
-        .form-group button:hover {
-            background-color: #0056b3; /* 호버 배경색 */
-        }
-        h2 {
-            margin-top: 50px; /* h2 위쪽 여백 */
-            clear: both; /* 이전 플로팅 요소를 제거 */
-        }
-    </style>
     <script>
         // jQuery UI Datepicker 설정
         $(document).ready(function() {
@@ -114,7 +26,7 @@
             });
         });
     </script>
-    <script th:inline="javascript">
+<script th:inline="javascript">
         /* Thymeleaf에서 서버에서 전달받은 값 사용하기 */
         var pHValue = /*[[${pH}]]*/ null;
         var turbidityValue = /*[[${turbidity}]]*/ null;
@@ -132,51 +44,46 @@
                 }
             });
 
-            // 결과 데이터에 따른 이모티콘 설정
-            function updateEmojis(pH, turbidity, residualChlorine) {
-                // pH 값에 따른 이모티콘 변경
-                if (pH >= 5.8 && pH <= 8.5) {
-                    $("#pHEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MDJfOTgg%2FMDAxNzEyMDYzNTY5Mzkw.zJQN1xrS7eh8q6ukH18bdOQd3NahayDOKIojaFtr1dMg.0j-eDbhKTtcXXYM26bP0M6faDhWO2bpMXiyH8ec3l2wg.JPEG%2FIMG_1989.jpg&type=a340" alt="Happy" style="width: 50px; height: 50px;">');
-                } else {
-                    $("#pHEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
-                }
+			// 결과 데이터에 따른 이모티콘 설정
+			           function updateEmojis(pH, turbidity, residualChlorine) {
+			               // pH 값에 따른 이모티콘 변경
+			               if (pH >= 5.8 && pH <= 8.5) {
+			                   $("#pHEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MDJfOTgg%2FMDAxNzEyMDYzNTY5Mzkw.zJQN1xrS7eh8q6ukH18bdOQd3NahayDOKIojaFtr1dMg.0j-eDbhKTtcXXYM26bP0M6faDhWO2bpMXiyH8ec3l2wg.JPEG%2FIMG_1989.jpg&type=a340" alt="Happy" style="width: 50px; height: 50px;">');
+			               } else if(pH == null || pH === '') {
+							$("#pHEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
+						   } else {
+			                   $("#pHEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
+			               }
 
-                // 탁도 값에 따른 이모티콘 변경
-                if (turbidity <= 0.5) {
-                    $("#turbidityEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MDJfOTgg%2FMDAxNzEyMDYzNTY5Mzkw.zJQN1xrS7eh8q6ukH18bdOQd3NahayDOKIojaFtr1dMg.0j-eDbhKTtcXXYM26bP0M6faDhWO2bpMXiyH8ec3l2wg.JPEG%2FIMG_1989.jpg&type=a340" alt="Happy" style="width: 50px; height: 50px;">');
-                } else {
-                    $("#turbidityEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
-                }
+			               // 탁도 값에 따른 이모티콘 변경
+			               if (turbidity == null || turbidity === '') {
+						   	$("#turbidityEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
+			               } else if (turbidity <= 0.5) {
+							 $("#turbidityEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MDJfOTgg%2FMDAxNzEyMDYzNTY5Mzkw.zJQN1xrS7eh8q6ukH18bdOQd3NahayDOKIojaFtr1dMg.0j-eDbhKTtcXXYM26bP0M6faDhWO2bpMXiyH8ec3l2wg.JPEG%2FIMG_1989.jpg&type=a340" alt="Happy" style="width: 50px; height: 50px;">');
+						   } else {
+			                   $("#turbidityEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
+			               }
 
-                // 잔류염소 값에 따른 이모티콘 변경
-                if (residualChlorine >= 0.1 && residualChlorine <= 4.0) {
-                    $("#residualChlorineEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MDJfOTgg%2FMDAxNzEyMDYzNTY5Mzkw.zJQN1xrS7eh8q6ukH18bdOQd3NahayDOKIojaFtr1dMg.0j-eDbhKTtcXXYM26bP0M6faDhWO2bpMXiyH8ec3l2wg.JPEG%2FIMG_1989.jpg&type=a340" alt="Happy" style="width: 50px; height: 50px;">');
-                } else {
-                    $("#residualChlorineEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
-                }
-            }
+			               // 잔류염소 값에 따른 이모티콘 변경
+			               if (residualChlorine >= 0.1 && residualChlorine <= 4.0) {
+			                   $("#residualChlorineEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MDJfOTgg%2FMDAxNzEyMDYzNTY5Mzkw.zJQN1xrS7eh8q6ukH18bdOQd3NahayDOKIojaFtr1dMg.0j-eDbhKTtcXXYM26bP0M6faDhWO2bpMXiyH8ec3l2wg.JPEG%2FIMG_1989.jpg&type=a340" alt="Happy" style="width: 50px; height: 50px;">');
+			               } else if(residualChlorine == null || residualChlorine === '') {
+						   	$("#residualChlorineEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
+						   } else {
+			                   $("#residualChlorineEmoji").html('<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMTM4%2FMDAxNjYyNDIwMzIxMTM1.2wepNgQOasynKFAaEzaDcgo9pjm6atMKfClYQY3Gu1Ag.wQAHyBDXXE76N49sxX1XyAv3kT4I4yTweWJkYppCSmIg.PNG.wooyeun0818%2F1662419433001.png&type=a340" alt="Sad" style="width: 50px; height: 50px;">');
+			               }
+			           }
 
-            // 초기 데이터를 기반으로 이모티콘 업데이트
-            updateEmojis(pHValue, turbidityValue, residualChlorineValue);
-        });
+			           // 초기 데이터를 기반으로 이모티콘 업데이트
+			           updateEmojis(pHValue, turbidityValue, residualChlorineValue);
+			       });
     </script>
 </head>
-<body>
-	<div class="header">
-	    <button onclick="location.href='/board/list'">제보게시판</button>
-	    <button sec:authorize="isAnonymous()" onclick="location.href='/user/login'">로그인</button>
-		<form th:action="@{/user/logout}" method="post">
-		        <button type="submit" sec:authorize="isAuthenticated()">로그아웃</button>
-		</form>
-		<!-- <button sec:authorize="isAuthenticated()" onclick="location.href='/user/login'">로그아웃</button> -->
-	    <button onclick="location.href='/user/signup'">회원가입</button>
-	</div>
-	
+<body>  
     <!-- 폼 컨테이너 -->
     <div class="form-container">
         <!-- Example Thymeleaf form -->
         <form action="#" th:action="@{/main}" th:object="${requestParams}" method="post">
-			<!-- 날짜를 오늘 값으로 초기값으로 넣어주기 -->
             <div class="form-group">
                 <label for="stdt">날짜 선택:</label>
                 <input type="text" th:field="*{stdt}" id="stdt" placeholder="날짜를 선택하세요"/>
@@ -202,30 +109,33 @@
             <!-- 첫 번째 칸 -->
             <div class="box">
                 <p class="title">pH(-)</p>
-                <p class="value" th:text="${pH}"></p>
-                <p>5.8~8.5</p>
+                <p class="value" th:text="${pH}"></p>               
                 <!-- pH 값에 따른 이모티콘 추가 -->
                 <p class="emoji" id="pHEmoji"></p>
+				<p>적합 기준 : 5.8~8.5</p>
             </div>
             
             <!-- 두 번째 칸 -->
             <div class="box">
                 <p class="title">탁도(NTU)</p>
-                <p class="value" th:text="${turbidity}"></p>
-                <p>0.5이하</p>
+                <p class="value" th:text="${turbidity}"></p>                
                 <!-- 탁도 값에 따른 이모티콘 추가 -->
                 <p class="emoji" id="turbidityEmoji"></p>
+				<p>적합 기준 : 0.5이하</p>
             </div>
             
             <!-- 세 번째 칸 -->
             <div class="box">
                 <p class="title">잔류염소(ml/L)</p>
-                <p class="value" th:text="${residualChlorine}"></p>
-                <p>0.1~4.0</p>
+                <p class="value" th:text="${residualChlorine}"></p>               
                 <!-- 잔류염소 값에 따른 이모티콘 추가 -->
                 <p class="emoji" id="residualChlorineEmoji"></p>
+				<p>적합 기준 : 0.1~4.0</p>
             </div>
         </div>
     </div>
+   
 </body>
+</div>
+
 </html>

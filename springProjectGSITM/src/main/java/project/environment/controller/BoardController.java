@@ -99,28 +99,7 @@ public class BoardController {
         redirectAttributes.addFlashAttribute("message", "게시글이 수정되었습니다.");
         return "redirect:/board/list";
     }
-
-//	  // 관리자가 공지유무인 noticeFlag를 변경할 수 있도록 하는 edit코드 -> 수정 필요 
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/edit/{id}")
-//    public String editBoard(@Valid BoardForm boardForm, BindingResult bindingResult, 
-//    		Principal principal, RedirectAttributes redirectAttributes, 
-//          @PathVariable("id") Integer id) {
-//        if (bindingResult.hasErrors()) {
-//            return "/board/edit/{id}";
-//        }
-//        Board board = boardService.getBoardById(id);
-//        if (!board.getUser().getName().equals(principal.getName())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-//        }
-//        board.setTitle(boardForm.getTitle());
-//        board.setBoard_Content(boardForm.getBoard_Content());
-//        boardService.edit(id, board.getTitle(), board.getBoard_Content());
-//        redirectAttributes.addFlashAttribute("message", "게시글이 수정되었습니다.");
-//        return "redirect:/board/list";
-//    }
-    
-
+ 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete/{id}")
     public String deleteBoard(Principal principal, @PathVariable("id") Integer id) {

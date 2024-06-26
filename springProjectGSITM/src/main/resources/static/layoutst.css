@@ -1,0 +1,35 @@
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end; /* 메뉴를 오른쪽으로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    height: 100%; /* 높이 설정 */
+    list-style-type: none; /* 리스트 스타일 제거 */
+}
+
+.nav-item {
+    margin-left: 10px; /* 각 메뉴 아이템 사이의 왼쪽 여백 설정 */
+    list-style: none; /* 리스트 스타일 제거 */
+}
+
+.nav-link {
+    color: #fff; /* 메뉴 링크의 글자색 */
+    padding: 10px 20px; /* 링크 내용의 패딩 설정 */
+    border: 1px solid transparent; /* 투명한 테두리 설정 */
+    border-radius: 20px; /* 버튼 모서리를 둥글게 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+}
+
+.nav-link:hover {
+    background-color: #0056b3; /* 메뉴 링크에 마우스 호버 시 배경색 변경 */
+    border-color: #0056b3; /* 테두리 색상 변경 */
+}
+
+.navbar-brand {
+    margin-right: auto; /* 왼쪽 정렬 */
+    font-size: 40px; /* 로고 글씨 크기 키우기 */
+}
+
+.navbar-nav .nav-item .nav-link {
+    margin-left: 10px; /* 버튼과 로고 사이 간격 설정 */
+    font-size: 18px; /* 버튼 글씨 크기 키우기 */
+}

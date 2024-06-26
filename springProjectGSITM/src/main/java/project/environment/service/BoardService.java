@@ -26,7 +26,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public Page<Board> getList(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").descending());
         return this.boardRepository.findAll(pageable);
     }
     
@@ -46,7 +46,7 @@ public class BoardService {
     	
     	board.setFilename(fileName);
         board.setFilepath("/files/" + fileName);
-        board.setCreate_Date(LocalDateTime.now());
+        board.setCreateDate(LocalDateTime.now());
         board.setTitle(title);
 		board.setBoard_Content(board_content);
 		board.setUser(user);

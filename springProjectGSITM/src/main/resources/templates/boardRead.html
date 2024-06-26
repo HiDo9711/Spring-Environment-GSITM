@@ -34,8 +34,9 @@
     <h2>게시글 조회</h2>
     <div class="board-details">
         <!-- 게시글 내용 -->
-        <p class="detail-item"><strong>번호:</strong> <span th:text="${board.Board_Num}"></span></p>
+        <p class="detail-item"><strong>게시글 번호:</strong> <span th:text="${board.Board_Num}"></span></p>
         <p class="detail-item"><strong>제목:</strong> <span th:text="${board.Title}"></span></p>
+		<p class="detail-item"><strong>지역:</strong> <span th:text="${board.user.regionNum}"></span></p>
 		<p class="detail-item"><strong>작성자:</strong><span th:if="${board.user !=null}" th:text="${board.user.loginId}"></span></p>
 		<p class="detail-item"><strong>내용:</strong> <span th:text="${board.Board_Content}"></span></p>
 		<div class="board-image detail-item">
@@ -44,7 +45,7 @@
 		        <img th:src="@{${board.Filepath}}" alt="게시글 이미지" width="300" height="200">
 		    </span>
 		</div>
-		<p class="detail-item"><strong>생성일자:</strong> <span th:text="${#temporals.format(board.Create_Date, 'yyyy-MM-dd HH:mm')}"></span></p>
+		<p class="detail-item"><strong>생성일자:</strong> <span th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
         <p class="detail-item"><strong>수정일자:</strong> <span th:text="${#temporals.format(board.Modify_Date, 'yyyy-MM-dd HH:mm')}"></span></p>
         <p class="detail-item"><strong>조회수:</strong> <span th:text="${board.Hit_Count}"></span></p>
 
@@ -97,7 +98,7 @@
                     <!-- 날짜 표시 -->
                     <div class="badge bg-light text-dark p-2">
                         <div th:if="${comment.Modify_Date != null}" th:text="${#temporals.format(comment.Modify_Date, 'yyyy-MM-dd HH:mm')}"></div>
-                        <div th:if="${comment.Modify_Date == null}" th:text="${#temporals.format(comment.Create_Date, 'yyyy-MM-dd HH:mm')}"></div>
+                        <div th:if="${comment.Modify_Date == null}" th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                     </div>
 
                     <!-- 수정 버튼 -->

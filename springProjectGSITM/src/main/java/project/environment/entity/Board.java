@@ -32,7 +32,7 @@ public class Board {
     private String Board_Content;
 
     @Column(nullable = false)
-    private LocalDateTime Create_Date;
+    private LocalDateTime createDate;
 
     @Column(nullable = true)
     private LocalDateTime Modify_Date;
