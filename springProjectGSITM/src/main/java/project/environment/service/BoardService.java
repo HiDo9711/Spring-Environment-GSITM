@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import project.environment.Repository.BoardRepository;
 import project.environment.entity.Board;
+import project.environment.entity.SiteUser;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +64,6 @@ public class BoardService {
         return boardRepository.save(board); // 수정된 엔티티 반환
     }
 
-
     @Transactional
     public void edit(Integer id, String title, String boardContent) {
         Board board = boardRepository.findById(id)
@@ -74,12 +74,17 @@ public class BoardService {
         // 게시글 수정 시 수정일자 업데이트
     }
 
-    
     @Transactional
     public void delete(Integer id) {
         boardRepository.deleteById(id);
     }
     
+    @Transactional
+    public void recommend(Board board, SiteUser siteUser) {
+        // 질문 엔티티에 사용자를 추천인으로 저장한다.
+		board.getRecommender().add(siteUser);
+		this.boardRepository.save(board); // 현재 질문 저장
+    }
     
     
     

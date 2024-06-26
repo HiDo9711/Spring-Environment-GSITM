@@ -1,5 +1,7 @@
 package project.environment.controller;
 
+import java.security.Principal;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import project.environment.entity.Board;
+import project.environment.entity.SiteUser;
 import project.environment.service.BoardService;
+import project.environment.service.UserService;
 
 
 @Controller
@@ -22,6 +26,7 @@ import project.environment.service.BoardService;
 public class BoardController {
 
     private final BoardService boardService;
+    private final UserService userService;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
@@ -75,4 +80,18 @@ public class BoardController {
         boardService.delete(id);
         return "redirect:/board/list";
     }
+    
+    @GetMapping("/recommend/{id}")
+    public String boardRecommend(Principal principal, @PathVariable("id") Integer id) {
+                // 파라미터로 받은 id를 조회하여 질문을 저장
+    	        Board board = this.boardService.getBoardById(id);
+                // 현재 객체의 id를 조회하여 사용자를 저장
+    	        SiteUser siteUser = this.userService.getUser(principal.getName());
+                // 서비스의 vote 메소드 사용
+    	        this.boardService.recommend(board, siteUser);
+                // id페이지로 리다이렉트
+    	        return String.format("redirect:/board/read/%s", id);
+    }
+    
+    
 }

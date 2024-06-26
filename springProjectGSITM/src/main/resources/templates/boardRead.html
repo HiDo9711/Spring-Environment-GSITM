@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 조회</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/boardRead.css">
     <script>
         function showEditForm(commentNum) {
             document.getElementById('edit-comment-form-' + commentNum).style.display = "block";
@@ -17,6 +17,16 @@
         function goToBoardList() {
             window.location.href = '/board/list';
         }
+		
+		const recommend_elements = document.getElementsByClassName("recommend");
+		Array.from(recommend_elements).forEach(function(element) {
+		    element.addEventListener('click', function() {
+		        if(confirm("정말로 추천하시겠습니까?")) {
+		            location.href = this.dataset.uri;
+		        };
+		    });
+		});
+
     </script>
 </head>
 
@@ -27,10 +37,28 @@
         <p class="detail-item"><strong>번호:</strong> <span th:text="${board.Board_Num}"></span></p>
         <p class="detail-item"><strong>제목:</strong> <span th:text="${board.Title}"></span></p>
         <p class="detail-item"><strong>내용:</strong> <span th:text="${board.Board_Content}"></span></p>
-        <p class="detail-item"><strong>생성일자:</strong> <span th:text="${#temporals.format(board.Create_Date, 'yyyy-MM-dd HH:mm')}"></span></p>
+		<div class="board-image detail-item">
+			<strong>이미지:</strong>
+		    <span>
+		        <img th:src="@{${board.Filepath}}" alt="게시글 이미지" width="300" height="200">
+		    </span>
+		</div>
+		<p class="detail-item"><strong>생성일자:</strong> <span th:text="${#temporals.format(board.Create_Date, 'yyyy-MM-dd HH:mm')}"></span></p>
         <p class="detail-item"><strong>수정일자:</strong> <span th:text="${#temporals.format(board.Modify_Date, 'yyyy-MM-dd HH:mm')}"></span></p>
         <p class="detail-item"><strong>조회수:</strong> <span th:text="${board.Hit_Count}"></span></p>
-        
+
+		<!-- 아래 코드에서 board.recommender 가 값을 제대로 불러오는지 확인 필요-->
+		<p class="detail-item"><strong>추천수:</strong> <span th:text="${#lists.size(board.recommender)}"></p>
+	
+		<div class = "m-2">
+			<strong>추천버튼임</strong>
+			<a href="javascript:void(0);" class="recommend" th:data-uri="@{|/board/recommend/${board.Board_Num}|}">
+				<img src="\ddabong.jpg" alt="사진없음" width="80" height="80"><span class="badge rounded-pill bg-danger" th:text="${#lists.size(board.recommender)}"></span>
+			</a>
+			
+		</div>	
+
+
         <!-- 버튼 그룹 -->
         <div class="button-container">
             <!-- 수정하기 버튼 -->
@@ -42,7 +70,7 @@
                 <button type="submit" class="delete-button">삭제하기</button>
             </form>
 
-            <button onclick="goToBoardList()" class="btn btn-secondary">목록으로</button>
+            <button onclick="goToBoardList()" class="btn btn-secondary back-button">목록으로</button>
         </div>
 
         <!-- 댓글 작성 폼 -->
@@ -56,6 +84,14 @@
             <div class="card-body">
                 <div class="card-text" style="white-space:pre-line;" th:text="${comment.Comments_Content}"></div>
                 <div class="d-flex justify-content-between align-items-center">
+					
+					<!-- 댓글 추천 버튼 삽입 
+					<div><strong>추천수:</strong> <span th:text="${#lists.size(comments.recommender)}"></div>
+					<div class = "m-2">
+						<strong>추천버튼임</strong>
+						<a href="javascript:void(0);" class="recommend" th:data-uri="@{|/comments/recommend/${board.Board_Num}|}"><img src="\ddabong.jpg" alt="사진없음" width="80" height="80"><span class="badge rounded-pill bg-danger" th:text="${#lists.size(comments.recommender)}"></span></a>
+					</div>	
+					-->	
 
                     <!-- 날짜 표시 -->
                     <div class="badge bg-light text-dark p-2">

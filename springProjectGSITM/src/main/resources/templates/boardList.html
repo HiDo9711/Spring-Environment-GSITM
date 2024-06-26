@@ -44,7 +44,7 @@
 	<div th:if="${!paging.isEmpty()}">
 	    <ul class="pagination justify-content-center">
 	        <!-- 처음 페이지 버튼 -->
-	        <li class="page-item" th:classappend="${paging.number == 0} ? 'disabled'">
+	        <li class="page-item" th:if="${paging.number > 5}">
 	            <a class="page-link" th:href="@{|?page=0|}">
 	                <span>처음</span>
 	            </a>
