@@ -36,7 +36,8 @@
         <!-- 게시글 내용 -->
         <p class="detail-item"><strong>번호:</strong> <span th:text="${board.Board_Num}"></span></p>
         <p class="detail-item"><strong>제목:</strong> <span th:text="${board.Title}"></span></p>
-        <p class="detail-item"><strong>내용:</strong> <span th:text="${board.Board_Content}"></span></p>
+		<p class="detail-item"><strong>작성자:</strong><span th:if="${board.user !=null}" th:text="${board.user.loginId}"></span></p>
+		<p class="detail-item"><strong>내용:</strong> <span th:text="${board.Board_Content}"></span></p>
 		<div class="board-image detail-item">
 			<strong>이미지:</strong>
 		    <span>
@@ -62,10 +63,10 @@
         <!-- 버튼 그룹 -->
         <div class="button-container">
             <!-- 수정하기 버튼 -->
-            <a th:href="@{/board/edit(id=${board.Board_Num})}" class="edit-button">수정하기</a>
-            
-            <!-- 삭제하기 버튼 -->
-            <form th:action="@{/board/delete}" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+            <a th:href="@{/board/edit/{id}(id=${board.Board_Num})}" class="edit-button">수정하기</a>
+			<!-- @{/board/read/{id}(id=${board.Board_Num})} -->
+			<!-- 삭제하기 버튼 -->
+            <form th:action="@{/board/delete/{id}(id=${board.Board_Num})}" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
                 <input type="hidden" id="id" name="id" th:value="${board.Board_Num}">
                 <button type="submit" class="delete-button">삭제하기</button>
             </form>

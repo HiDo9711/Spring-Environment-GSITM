@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import project.environment.UserCreateForm;
+import project.environment.form.UserCreateForm;
 import project.environment.service.UserService;
 
 @RequiredArgsConstructor

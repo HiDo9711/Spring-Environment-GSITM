@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import project.environment.Repository.BoardRepository;
 import project.environment.entity.Board;
 import project.environment.entity.SiteUser;
+import project.environment.form.BoardForm;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +30,8 @@ public class BoardService {
         return this.boardRepository.findAll(pageable);
     }
     
-    public Board create(Board board, @RequestParam(name="file", required=false) MultipartFile file) throws Exception {
+    public Board create(String title, String board_content, SiteUser user, @RequestParam(name="file", required=false) MultipartFile file,@RequestParam(name = "noticeFlag", defaultValue = "false") boolean noticeFlag) throws Exception {
+    	Board board = new Board();
     	
     	String projectPath = System.getProperty("user.dir") // 프로젝트 경로를 가져옴
                 + "\\src\\main\\resources\\static\\files";  // 파일이 저장될 폴더의 경로
@@ -44,12 +47,16 @@ public class BoardService {
     	board.setFilename(fileName);
         board.setFilepath("/files/" + fileName);
         board.setCreate_Date(LocalDateTime.now());
+        board.setTitle(title);
+		board.setBoard_Content(board_content);
+		board.setUser(user);
+		board.setNotice_Flag(noticeFlag);
         board.setModify_Date(null); // 초기 생성 시 수정 일자는 null로 설정
         board.setHit_Count(0L); // 새로 작성된 글의 조회수 초기화
 
         return boardRepository.save(board);
     }
-
+    
     public Board getBoardById(Integer id) {
         return boardRepository.findById(id)
                               .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));

@@ -1,4 +1,4 @@
-package project.environment;
+package project.environment.form;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

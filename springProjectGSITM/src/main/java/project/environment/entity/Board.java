@@ -52,10 +52,12 @@ public class Board {
     @ManyToMany
     private Set<SiteUser> recommender;
     
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private Users user;
-//
+    @ManyToOne
+    private SiteUser user;
+    
+    @Column(nullable = true)
+    private boolean Notice_Flag;
+
 //    @ManyToOne
 //    @JoinColumn(name = "region_id")
 //    private Region region;

@@ -162,16 +162,21 @@
     </script>
 </head>
 <body>
-    <div class="header">
-        <button>제보게시판</button>
-        <button>로그인</button>
-        <button>회원가입</button>
-    </div>
-    
+	<div class="header">
+	    <button onclick="location.href='/board/list'">제보게시판</button>
+	    <button sec:authorize="isAnonymous()" onclick="location.href='/user/login'">로그인</button>
+		<form th:action="@{/user/logout}" method="post">
+		        <button type="submit" sec:authorize="isAuthenticated()">로그아웃</button>
+		</form>
+		<!-- <button sec:authorize="isAuthenticated()" onclick="location.href='/user/login'">로그아웃</button> -->
+	    <button onclick="location.href='/user/signup'">회원가입</button>
+	</div>
+	
     <!-- 폼 컨테이너 -->
     <div class="form-container">
         <!-- Example Thymeleaf form -->
         <form action="#" th:action="@{/main}" th:object="${requestParams}" method="post">
+			<!-- 날짜를 오늘 값으로 초기값으로 넣어주기 -->
             <div class="form-group">
                 <label for="stdt">날짜 선택:</label>
                 <input type="text" th:field="*{stdt}" id="stdt" placeholder="날짜를 선택하세요"/>
