@@ -49,14 +49,15 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
 	private List<Comments> commentsList;
     
-    @ManyToMany
-    private Set<SiteUser> recommender;
-    
     @ManyToOne
     private SiteUser user;
     
     @Column(nullable = true)
     private boolean Notice_Flag;
+    
+    // 추천 기능을 위한 매칭
+    @ManyToMany
+    private Set<SiteUser> recommender;
 
 //    @ManyToOne
 //    @JoinColumn(name = "region_id")
