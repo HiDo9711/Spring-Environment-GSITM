@@ -17,16 +17,18 @@
         function goToBoardList() {
             window.location.href = '/board/list';
         }
-		
-		const recommend_elements = document.getElementsByClassName("recommend");
-		Array.from(recommend_elements).forEach(function(element) {
-		    element.addEventListener('click', function() {
-		        if(confirm("정말로 추천하시겠습니까?")) {
-		            location.href = this.dataset.uri;
-		        };
-		    });
-		});
-
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const recommend_elements = document.getElementsByClassName("recommend");
+            Array.from(recommend_elements).forEach(function(element) {
+                element.addEventListener('click', function() {
+                    if (confirm("정말로 추천하시겠습니까?")) {
+                        location.href = this.dataset.uri;
+                    }
+                });
+            });
+        });
     </script>
 </head>
 
@@ -36,37 +38,35 @@
         <!-- 게시글 내용 -->
         <p class="detail-item"><strong>게시글 번호:</strong> <span th:text="${board.Board_Num}"></span></p>
         <p class="detail-item"><strong>제목:</strong> <span th:text="${board.Title}"></span></p>
-		<p class="detail-item"><strong>지역:</strong> <span th:text="${board.user.regionNum}"></span></p>
-		<p class="detail-item"><strong>작성자:</strong><span th:if="${board.user !=null}" th:text="${board.user.loginId}"></span></p>
-		<p class="detail-item"><strong>내용:</strong> <span th:text="${board.Board_Content}"></span></p>
-		<div class="board-image detail-item">
-			<strong>이미지:</strong>
-		    <span>
-		        <img th:src="@{${board.Filepath}}" alt="게시글 이미지" width="300" height="200">
-		    </span>
-		</div>
-		<p class="detail-item"><strong>생성일자:</strong> <span th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+        <p class="detail-item"><strong>지역:</strong> <span th:text="${board.user.regionNum}"></span></p>
+        <p class="detail-item"><strong>작성자:</strong><span th:if="${board.user !=null}" th:text="${board.user.loginId}"></span></p>
+        <p class="detail-item"><strong>내용:</strong> <span th:text="${board.Board_Content}"></span></p>
+        <div class="board-image detail-item">
+            <strong>이미지:</strong>
+            <span>
+                <img th:src="@{${board.Filepath}}" alt="이미지 없음" width="300" height="200">
+            </span>
+        </div>
+        <p class="detail-item"><strong>생성일자:</strong> <span th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
         <p class="detail-item"><strong>수정일자:</strong> <span th:text="${#temporals.format(board.Modify_Date, 'yyyy-MM-dd HH:mm')}"></span></p>
         <p class="detail-item"><strong>조회수:</strong> <span th:text="${board.Hit_Count}"></span></p>
 
-		<!-- 아래 코드에서 board.recommender 가 값을 제대로 불러오는지 확인 필요-->
-		<p class="detail-item"><strong>추천수:</strong> <span th:text="${#lists.size(board.recommender)}"></p>
-	
-		<div class = "m-2">
-			<strong>추천버튼임</strong>
-			<a href="javascript:void(0);" class="recommend" th:data-uri="@{|/board/recommend/${board.Board_Num}|}">
-				<img src="\ddabong.jpg" alt="사진없음" width="80" height="80"><span class="badge rounded-pill bg-danger" th:text="${#lists.size(board.recommender)}"></span>
-			</a>
-			
-		</div>	
-
+        <!-- 아래 코드에서 board.recommender 가 값을 제대로 불러오는지 확인 필요-->
+        <p class="detail-item"><strong>추천수:</strong> <span th:text="${#lists.size(board.recommender)}"></p>
+    
+        <div class="m-2">
+            <strong>추천버튼임</strong>
+            <a href="javascript:void(0);" class="recommend" th:data-uri="@{|/board/recommend/${board.Board_Num}|}">
+                <img src="\ddabong.jpg" alt="사진없음" width="80" height="80"><span class="badge rounded-pill bg-danger" th:text="${#lists.size(board.recommender)}"></span>
+            </a>
+        </div>    
 
         <!-- 버튼 그룹 -->
         <div class="button-container">
             <!-- 수정하기 버튼 -->
             <a th:href="@{/board/edit/{id}(id=${board.Board_Num})}" class="edit-button">수정하기</a>
-			<!-- @{/board/read/{id}(id=${board.Board_Num})} -->
-			<!-- 삭제하기 버튼 -->
+            <!-- @{/board/read/{id}(id=${board.Board_Num})} -->
+            <!-- 삭제하기 버튼 -->
             <form th:action="@{/board/delete/{id}(id=${board.Board_Num})}" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
                 <input type="hidden" id="id" name="id" th:value="${board.Board_Num}">
                 <button type="submit" class="delete-button">삭제하기</button>
@@ -86,19 +86,11 @@
             <div class="card-body">
                 <div class="card-text" style="white-space:pre-line;" th:text="${comment.Comments_Content}"></div>
                 <div class="d-flex justify-content-between align-items-center">
-					
-					<!-- 댓글 추천 버튼 삽입 
-					<div><strong>추천수:</strong> <span th:text="${#lists.size(comments.recommender)}"></div>
-					<div class = "m-2">
-						<strong>추천버튼임</strong>
-						<a href="javascript:void(0);" class="recommend" th:data-uri="@{|/comments/recommend/${board.Board_Num}|}"><img src="\ddabong.jpg" alt="사진없음" width="80" height="80"><span class="badge rounded-pill bg-danger" th:text="${#lists.size(comments.recommender)}"></span></a>
-					</div>	
-					-->	
 
                     <!-- 날짜 표시 -->
                     <div class="badge bg-light text-dark p-2">
                         <div th:if="${comment.Modify_Date != null}" th:text="${#temporals.format(comment.Modify_Date, 'yyyy-MM-dd HH:mm')}"></div>
-                        <div th:if="${comment.Modify_Date == null}" th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                        <div th:if="${comment.Modify_Date == null}" th:text="${#temporals.format(comment.Create_Date, 'yyyy-MM-dd HH:mm')}"></div>
                     </div>
 
                     <!-- 수정 버튼 -->

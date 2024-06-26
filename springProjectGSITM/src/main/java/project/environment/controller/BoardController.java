@@ -33,6 +33,18 @@ public class BoardController {
 
     private final BoardService boardService;
     private final UserService userService;
+    
+    @GetMapping("/recommend/{id}")
+    public String boardRecommend(Principal principal, @PathVariable("id") Integer id) {
+                // 파라미터로 받은 id를 조회하여 질문을 저장
+    	        Board board = this.boardService.getBoardById(id);
+                // 현재 객체의 id를 조회하여 사용자를 저장
+    	        SiteUser siteUser = this.userService.getUser(principal.getName());
+                // 서비스의 vote 메소드 사용
+    	        this.boardService.recommend(board, siteUser);
+                // id페이지로 리다이렉트
+    	        return String.format("redirect:/board/read/%s", id);
+    }
 
     // 모든 권한 접근
     @GetMapping("/list")
@@ -111,16 +123,6 @@ public class BoardController {
         return "redirect:/board/list";
     }
     
-    @GetMapping("/recommend/{id}")
-    public String boardRecommend(Principal principal, @PathVariable("id") Integer id) {
-                // 파라미터로 받은 id를 조회하여 질문을 저장
-    	        Board board = this.boardService.getBoardById(id);
-                // 현재 객체의 id를 조회하여 사용자를 저장
-    	        SiteUser siteUser = this.userService.getUser(principal.getName());
-                // 서비스의 vote 메소드 사용
-    	        this.boardService.recommend(board, siteUser);
-                // id페이지로 리다이렉트
-    	        return String.format("redirect:/board/read/%s", id);
-    }
+
     
 }

@@ -18,7 +18,8 @@
                 <th>생성일자</th>
                 <th>수정일자</th>
 				<th>작성자</th>
-                <th>조회수</th>
+                <th>조회수</th>				
+				<th>추천수</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +33,7 @@
 					<!-- 해당 글의 댓글수 표현 나중에 css처리 하기-->
 					<span class="badge bg-primary text-white" th:if="${#lists.size(board.CommentsList) > 0}" th:text=${#lists.size(board.CommentsList)}></span>	
 				</td>
-				<td><img th:src="${board.Filepath}"></td>
+				<td><img th:src="${board.Filepath}" alt="이미지 없음" width="120px" height="90px" ></td>
 				<!--<td th:text="${board.Board_Content} ?: ''"></td>-->
 			    <td th:text="${board.createDate != null ? #temporals.format(board.createDate, 'yyyy-MM-dd HH:mm') : ''}"></td>
 				<td>
@@ -42,6 +43,8 @@
 				<td><span th:if="${board.user !=null}" 
 					th:text="${board.user.loginId}"></span></td>
 				<td th:text="${board.Hit_Count != null ? board.Hit_Count : 0}"></td>
+				<td th:text="${#lists.size(board.recommender)!=null ? #lists.size(board.recommender) : 0}"></td>
+				
 				
 			</tr>
         </tbody>
