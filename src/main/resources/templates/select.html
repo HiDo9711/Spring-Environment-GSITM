@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	
+<head>
+	<meta charset="UTF-8">
+	 <title>수질 모니터링</title>
+	 <!-- 추가 CSS 파일 -->
+	<link rel="stylesheet" href="/main.css">
+    <!-- jQuery UI Datepicker CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+</head>
+<body>  
+	<div layout:fragment="content" class="out">
+    <!-- 폼 컨테이너 -->
+    <div class="form-container" >
+        <!-- Example Thymeleaf form -->
+		<div class="out1">
+        <form action="#" th:action="@{/main}" th:object="${requestParams}" method="post">
+            <div class="form-group">
+                <label for="stdt">날짜 선택</label>
+                <input type="text" th:field="*{stdt}" id="stdt" placeholder="날짜를 선택하세요"/>
+            </div>
+    
+            <div class="form-group">
+                <label for="sgcCd">지역 선택</label>
+                <select th:field="*{sgcCd}" id="sgcCd">
+                    <option th:each="region : ${regions}" th:value="${region.code}" th:text="${region.name}">Region</option>
+                </select>
+            </div>
+    
+            <div class="form-group1">
+                <button type="submit">검색</button>
+            </div>
+        </form>
+		</div>
+		<!-- 결과 출력 -->
+		<div class="out2">
+		    <div class="container">
+		        <!-- 첫 번째 칸 -->
+		        <div class="box">
+		            <p class="title">pH(-)</p>
+		            <p class="value" th:text="${pH}"></p>               
+		            <!-- pH 값에 따른 이모티콘 추가 -->
+		            <p class="emoji" id="pHEmoji"></p>
+				<p>적합 기준 : 5.8~8.5</p>
+		        </div>
+		        
+		        <!-- 두 번째 칸 -->
+		        <div class="box">
+		            <p class="title">탁도(NTU)</p>
+		            <p class="value" th:text="${turbidity}"></p>                
+		            <!-- 탁도 값에 따른 이모티콘 추가 -->
+		            <p class="emoji" id="turbidityEmoji"></p>
+				<p>적합 기준 : 0.5이하</p>
+		        </div>
+		        
+		        <!-- 세 번째 칸 -->
+		        <div class="box">
+		            <p class="title">잔류염소(ml/L)</p>
+		            <p class="value" th:text="${residualChlorine}"></p>               
+		            <!-- 잔류염소 값에 따른 이모티콘 추가 -->
+		            <p class="emoji" id="residualChlorineEmoji"></p>
+				<p>적합 기준 : 0.1~4.0</p>
+		        </div>
+		    </div>
+		</div>
+		</div>
+	</div>	
+	</body>
+	<th:block layout:fragment="script">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script th:inline="javascript">
+			/* Thymeleaf에서 서버에서 전달받은 값 사용하기 */
+			var pHValue = /*[[${pH}]]*/ null;
+			var turbidityValue = /*[[${turbidity}]]*/ null;
+			var residualChlorineValue = /*[[${residualChlorine}]]*/ null;
+
+			$(document).ready(function() {
+				// jQuery UI Datepicker 설정
+				$("#datepicker").datepicker({
+					dateFormat: 'yy-mm-dd',
+					changeMonth: true,
+					changeYear: true,
+					showButtonPanel: true,
+					onSelect: function(selectedDate) {
+						$("#datepicker").val(selectedDate); // 선택된 날짜를 입력란에 넣기
+					}
+				});
+
+				// 결과 데이터에 따른 이모티콘 설정
+				function updateEmojis(pH, turbidity, residualChlorine) {
+					// pH 값에 따른 이모티콘 변경
+					if (pH >= 5.8 && pH <= 8.5) {
+						$("#pHEmoji").html('<img src="/check.jpg" alt="Happy" style="width: 50px; height: 50px;">');
+					} else {
+						$("#pHEmoji").html('<img src="/no-passing.jpg" alt="Sad" style="width: 50px; height: 50px;">');
+					}
+
+					// 탁도 값에 따른 이모티콘 변경
+					if (turbidity <= 0.5) {
+						$("#turbidityEmoji").html('<img src="/check.jpg" alt="Happy" style="width: 50px; height: 50px;">');
+					} else {
+						$("#turbidityEmoji").html('<img src="/no-passing.jpg" alt="Sad" style="width: 50px; height: 50px;">');
+					}
+
+					// 잔류염소 값에 따른 이모티콘 변경
+					if (residualChlorine >= 0.1 && residualChlorine <= 4.0) {
+						$("#residualChlorineEmoji").html('<img src="/check.jpg" alt="Happy" style="width: 50px; height: 50px;">');
+					} else {
+						$("#residualChlorineEmoji").html('<img src="/no-passing.jpg" alt="Sad" style="width: 50px; height: 50px;">');
+					}
+				}
+
+				// 초기 데이터를 기반으로 이모티콘 업데이트
+				updateEmojis(pHValue, turbidityValue, residualChlorineValue);
+			});
+
+			// jQuery UI Datepicker 설정
+			$(document).ready(function() {
+				$("#stdt").datepicker({
+					dateFormat: 'yy-mm-dd', // 날짜 형식
+					changeMonth: true, // 월 선택 가능
+					changeYear: true, // 연도 선택 가능
+					showButtonPanel: true, // 오늘 날짜로 돌아가는 버튼 표시
+					onSelect: function(selectedDate) {
+						// 선택된 날짜를 입력란에 넣기
+						$("#stdt").val(selectedDate);
+						$("#eddt").val(selectedDate); // 종료 날짜도 시작 날짜와 동일하게 설정
+					}
+				});
+			});
+		</script>
+		<!-- jQuery CDN -->
+
+	</th:block>
+
+</html>

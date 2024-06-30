@@ -1,0 +1,85 @@
+<html layout:decorate="~{layout}">
+<head>
+    <title>정보수정</title>
+    <!-- Bootstrap CSS 링크 추가 -->
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+    <!-- 추가 CSS 파일 -->
+    <link rel="stylesheet" href="/signup.css">
+</head>
+<body>
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>회원 정보 수정</h4>
+        </div>
+    </div>
+    <form th:action="@{/user/modify}" th:object="${userCreateForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div class="mb-3">
+            <label for="loginId" class="form-label">ID</label>
+            <input type="text" th:value="${siteUser.loginId}" name="loginId" class="form-control" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input type="password" id="pw1" oninput="pwCheck()" name="password1" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input type="password" id="pw2" oninput="pwCheck()" name="password2" class="form-control">
+            <div id="pwConfirm" style="margin-top: 0; padding-top: 0;"></div>
+        </div>
+
+        <div id="pwConfirm"></div> <!-- 비밀번호 일치 여부 메시지를 보여줄 div -->
+
+        <div class="mb-3">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" th:value="${siteUser.name}" name="name" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일</label>
+            <input type="email" name="email" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="region" class="form-label">지역</label>
+            <select name="region" class="form-control" id="region">
+                <option value="">지역을 선택하세요</option>
+                <option value="거제시">거제시</option>
+                <option value="고령군">고령군</option>
+                <option value="광주시">광주시</option>
+                <option value="단양군">단양군</option>
+                <option value="동두천시">동두천시</option>
+                <option value="봉화군">봉화군</option>
+                <option value="사천시">사천시</option>
+                <option value="양주시">양주시</option>
+                <option value="예천군">예천군</option>
+                <option value="완도군">완도군</option>
+                <option value="진도군">진도군</option>
+                <option value="청송군">청송군</option>
+                <option value="파주시">파주시</option>
+                <option value="완도군">완도군</option>
+                <option value="함평군">함평군</option>
+            </select>
+        </div>
+        <button type="submit" class="btn">수정하기</button>
+    </form>
+    <button onclick = "location.href = '/user/delete'" class="btn">탈퇴하기</button>
+</div>
+</body>
+<th:block layout:fragment="script">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:inline="javascript">
+        function pwCheck() {
+            if ($('#pw1').val() == $('#pw2').val()) {
+                $('#pwConfirm').text(' 비밀번호가 일치합니다.').css('color', 'green');
+                $('#pw2').css('border-color', 'green'); // 일치하면 테두리 색상 연두색
+            } else {
+                $('#pwConfirm').text('비밀번호를 확인해주세요').css('color', 'red');
+                $('#pw2').css('border-color', 'red'); // 불일치 시 테두리 색상을 빨강으로 변경
+            }
+        }
+    </script>
+</th:block>
+</html>

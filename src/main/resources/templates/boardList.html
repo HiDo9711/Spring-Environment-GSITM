@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+	<!-- Bootstrap CSS 링크 추가 -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+	<!-- 추가 CSS 파일 -->
+	<link rel="stylesheet" href="/boardList.css">
+	
+</head>
+
+<body>
+	<div layout:fragment="content" class="container my-3"> 
+    	<h2>제보게시판</h2>
+	<table class="table table-hover ">
+	<thead class="thead-dark ">
+	        <tr class="table-group-divider ">
+	            <th scope="col">번호</th>
+				<th scope="col">지역</th>
+	            <th scope="col">제목</th>
+	            <th scope="col">이미지</th>
+	            <th scope="col">생성일자</th>
+	            <th scope="col">수정일자</th>
+	            <th scope="col">작성자</th>
+	            <th scope="col">조회수</th>
+				<th scope="col">추천수</th>
+	        </tr>
+	    </thead>
+        <tbody >
+				<tr th:each="board, loop : ${paging}" th:onclick="'/board/read/' + ${board.boardNum}">
+					<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+					<td><span th:text="${board.user.region}"></span></td>
+					<td>
+						<a th:href="@{/board/read/{id}(id=${board.boardNum})}" th:text="${board.title} ?: ''"></a>
+						<span class="badge bg-primary text-white" th:if="${#lists.size(board.commentsList) > 0}" th:text=${#lists.size(board.commentsList)}></span>	
+					</td>
+					<td><img  th:src="${board.filePath}"></td>
+				    <td th:text="${board.createDate != null ? #temporals.format(board.createDate, 'yyyy-MM-dd HH:mm') : ''}"></td>
+					<td>
+						<span th:if="${board.modifyDate != null}" th:text="${#temporals.format(board.modifyDate, 'yyyy-MM-dd HH:mm')}"></span>
+					    <span th:unless="${board.modifyDate != null}">-</span>
+					</td>
+					<td><span th:if="${board.user !=null}" 
+						th:text="${board.user.loginId}"></span></td>
+					<td th:text="${board.hitCount != null ? board.hitCount : 0}"></td>
+					<td th:text="${#lists.size(board.recommender)!=null ? #lists.size(board.recommender) : 0}" ></td>
+				</tr >
+			
+			</tbody  >
+	
+			
+    </table>
+		<!-- 페이지 이동 버튼 -->
+		<div th:if="${!paging.isEmpty()}">
+		    <ul class="pagination justify-content-center">
+		        <!-- 처음 페이지 버튼 -->
+		        <li class="page-item" th:if="${paging.number > 5}">
+		            <a class="page-link" th:href="@{|?page=0|}">
+		                <span>처음</span>
+		            </a>
+		        </li>
+		        <!-- 이전 페이지 버튼 -->
+		        <li class="page-item" th:if="${paging.hasPrevious}" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+		            <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+		                <span>이전</span>
+		            </a>
+		        </li>
+		        <!-- 페이지 번호 버튼 -->
+		        <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+		            th:if="${page >= paging.number-5 and page <= paging.number+5}"
+		            th:classappend="${page == paging.number} ? 'active'" 
+		            class="page-item">
+		            <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+		        </li>
+		        <!-- 다음 페이지 버튼 -->
+		        <li class="page-item" th:if="${paging.hasNext}" th:classappend="${!paging.hasNext} ? 'disabled'">
+		            <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+		                <span>다음</span>
+		            </a>
+		        </li>
+		        <!-- 마지막 페이지 버튼 -->
+		        <li class="page-item" th:classappend="${paging.number == paging.totalPages-1} ? 'disabled'">
+		            <a class="page-link" th:href="@{|?page=${paging.totalPages-1}|}">
+		                <span>끝</span>
+		            </a>
+		        </li>
+		    </ul>
+		</div>
+		
+	    <!-- 글 작성하기 버튼 -->
+		
+	    <a href="/board/write" class="write-button">글 작성하기</a>
+		</div>
+	</body>
+	</html>

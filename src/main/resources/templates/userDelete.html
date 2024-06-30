@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <title>회원 탈퇴</title>
+    <!-- Bootstrap CSS 링크 추가 -->
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+    <!-- 추가 CSS 파일 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // 비밀번호 일치 여부 체크
+            function pwCheck() {
+                if ($('#pw1').val() == $('#pw2').val()) {
+                    $('#pwConfirm').text('비밀번호가 일치합니다.').css('color', 'green');
+                    $('#pw2').css('border-color', 'green'); // 일치하면 테두리 색상을 초록색으로 변경
+                } else {
+                    $('#pwConfirm').text('비밀번호를 확인해주세요').css('color', 'red');
+                    $('#pw2').css('border-color', 'red'); // 불일치 시 테두리 색상을 빨강색으로 변경
+                }
+            }
+
+            // 탈퇴 버튼 클릭 시 실행되는 함수
+            function deleteConfirm() {
+                const confirmation = confirm("정말 탈퇴하시겠습니까?");
+                if (confirmation) {
+                    var deleteForm = document.getElementById('deleteForm');
+                    deleteForm.submit();
+                } else {
+                    return false;
+                }
+            }
+
+            // 회원 탈퇴 성공 후 Alert 창 띄우기 및 메인 페이지로 리다이렉트
+            function showSuccessAlertAndRedirect() {
+                alert('회원 탈퇴가 완료되었습니다.');
+                window.location.href = "/"; // 탈퇴 성공 후 main으로 이동
+            }
+
+            // 입력 필드의 입력 이벤트를 감지하여 pwCheck 함수를 호출하도록 설정
+            $('#pw1, #pw2').on('input', pwCheck);
+
+            // 탈퇴하기 버튼 클릭 이벤트 설정
+            $('#deleteBtn').on('click', deleteConfirm);
+        });
+    </script>
+</head>
+<body>
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>회원 탈퇴</h4>
+        </div>
+    </div>
+    <form id="deleteForm" action="/user/delete" method="post">
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input type="password" id="pw1" name="password1" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input type="password" id="pw2" name="password2" class="form-control">
+            <div id="pwConfirm" style="margin-top: 0; padding-top: 0;"></div>
+        </div>
+
+        <!-- 탈퇴 버튼 -->
+        <button id="deleteBtn" onclick="deleteConfirm()" class="btn">탈퇴하기</button>
+    </form>
+</div>
+</body>
+</html>

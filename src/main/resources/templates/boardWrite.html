@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+	<html layout:decorate="~{layout}">
+<head>
+	<meta charset="UTF-8">
+	  <title>글 작성</title>
+	  <!-- Bootstrap CSS 링크 추가 -->
+	  	   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	  	<link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+	  	 <!-- 추가 CSS 파일 -->
+	  <link rel="stylesheet" href="/boardWrite.css">
+	  
+</head>
+<body>
+	<div layout:fragment="content" class="container my-3">
+    <div class="form-container">
+        <h2>글 작성</h2>
+        <form action="/board/write" method="post" enctype="multipart/form-data">
+            <label for="title">제목:</label><br>
+            <input type="text" id="title" name="title" required><br>
+            <label for="boardContent">내용:</label><br>
+            <textarea id="boardContent" name="boardContent" required></textarea><br>
+			<!-- 공지사항 관련 관리자 아이디로 접근 시에만 아래 항목이 보이도록 설정
+			<label for="noticeFlag">공지사항 여부:</label>
+			<input type="checkbox" id="noticeFlag" name="noticeFlag" value="true"><br>
+			-->
+			<input type="file" name="file"> <!--multiple="multiple"/> -->
+            <!-- 작성 완료와 뒤로 가기 버튼 -->
+            <div class="buttons">
+                <button type="submit">작성 완료</button>
+				<button onclick="window.location.href='/board/list'" class="write-button">뒤로 가기</button>
+                <!-- <button href="javascript:history.back()" class="write-button">뒤로 가기</button> -->
+            </div>
+        </form>
+    </div>
+</body>
+</html>
