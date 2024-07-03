@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>수질 모니터링</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+    <link rel="stylesheet" href="/main.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+	
+</head>
+<body>
+    <div layout:fragment="content" class="container my-3">
+        <div class="form-container">
+            <div class="out1">
+                <form th:action="@{/main}" th:object="${requestParams}" method="post">
+                    <div class="form-group">
+                        <label for="stdt">날짜 선택</label>
+                        <input type="text" th:field="*{stdt}" id="stdt" placeholder="날짜를 선택하세요"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sgcCd">지역 선택</label>
+                        <select th:field="*{sgcCd}" id="sgcCd">
+                            <option th:each="region : ${regions}" th:value="${region.code}" th:text="${region.name}">Region</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group1">
+                        <button type="submit" class="btn btn-primary">검색</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="out2">
+                <div class="container">
+                    <div class="box">
+                        <p class="title">pH</p>
+                        <p class="value" th:text="${pH}"></p>               
+                        <p class="emoji" id="pHEmoji"></p>
+                        <p>적합 기준 : 5.8~8.5</p>
+                    </div>
+
+                    <div class="box">
+                        <p class="title">탁도(NTU)</p>
+                        <p class="value" th:text="${turbidity}"></p>                
+                        <p class="emoji" id="turbidityEmoji"></p>
+                        <p>적합 기준 : 0.5이하</p>
+                    </div>
+
+                    <div class="box">
+                        <p class="title">잔류염소(ml/L)</p>
+                        <p class="value" th:text="${residualChlorine}"></p>               
+                        <p class="emoji" id="residualChlorineEmoji"></p>
+                        <p>적합 기준 : 0.1~4.0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <div class="out1">
+                <table class="table  table-hover ">
+                    <h2 >추천 게시글</h2>
+               <br>
+                    <thead  class="table-primary  ">
+                        <tr >
+                            <th>순위</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                     <th>추천수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board, iterStat : ${top3RecommendedBoards}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td>
+                                <a th:href="@{'/board/read/' + ${board.boardNum}}" class="no-underline">
+                                    <h5 th:text="${board.title}"></h5>
+                                </a>
+                            </td>
+                            <td>
+                                <p th:text="${board.user.name}"></p>
+                            </td>
+                     <td>
+                        <p th:text="${#lists.size(board.recommender)}"></p>
+                     </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table  ">
+                    <h2 >최다 제보지역</h2>
+               <br>
+                    <thead class="table-primary">
+                        <tr>
+                     <th>순위</th>
+                            <th>지역</th>
+                            <th>제보 수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="index, iterStat : ${#numbers.sequence(0, activeRegions.size()-1)}">
+                     <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${activeRegions[index]}"></td>
+                            <td th:text="${numPosts[index]}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script th:inline="javascript">
+
+			var pHValue =  5.0;
+			var turbidityValue = 1.0;
+			var residualChlorineValue = 5.0;
+
+			function updateEmojis() {
+			          var pH = parseFloat($(".value").eq(0).text()); 
+			          var turbidity = parseFloat($(".value").eq(1).text()); 
+			          var residualChlorine = parseFloat($(".value").eq(2).text()); 
+
+			          if (!isNaN(pH) && pH >= 5.8 && pH <= 8.5) {
+			              $("#pHEmoji").html('<img src="/check.jpg" alt="Happy" style="width: 50px; height: 50px;">');
+			          } else {
+			              $("#pHEmoji").html('<img src="/no-passing.jpg" alt="Sad" style="width: 50px; height: 50px;">');
+			          }
+
+			          if (!isNaN(turbidity) && turbidity <= 0.5) {
+			              $("#turbidityEmoji").html('<img src="/check.jpg" alt="Happy" style="width: 50px; height: 50px;">');
+			          } else {
+			              $("#turbidityEmoji").html('<img src="/no-passing.jpg" alt="Sad" style="width: 50px; height: 50px;">');
+			          }
+
+			          if (!isNaN(residualChlorine) && residualChlorine >= 0.1 && residualChlorine <= 4.0) {
+			              $("#residualChlorineEmoji").html('<img src="/check.jpg" alt="Happy" style="width: 50px; height: 50px;">');
+			          } else {
+			              $("#residualChlorineEmoji").html('<img src="/no-passing.jpg" alt="Sad" style="width: 50px; height: 50px;">');
+			          }
+			      }
+
+			      $(document).ready(function() {
+			          $("#stdt").datepicker({
+			              dateFormat: 'yy-mm-dd', 
+			              changeMonth: true, 
+			              changeYear: true,
+			              showButtonPanel: true, 
+			              onSelect: function(selectedDate) {
+			                  $("#stdt").val(selectedDate);
+			              }
+			          });
+
+			         updateEmojis(); 
+			});
+        </script>
+    </th:block>
+</body>
+</html>

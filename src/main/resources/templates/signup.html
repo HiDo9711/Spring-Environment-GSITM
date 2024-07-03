@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+    <link rel="stylesheet" href="/signup.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+		$(document).ready(function() {
+		    var emailVerified = false;
+
+		    $('#sendVerificationEmail').click(function() {
+		        var email = $('#email').val(); 
+		        if (email) {
+		            $.ajax({
+		                type: 'POST',
+		                url: '/user/send-email', 
+		                contentType: 'application/json',
+		                data: JSON.stringify({ 'email': email }),
+		                success: function(response) {
+		                    alert('이메일이 발송되었습니다.'); 
+		                },
+		                error: function(error) {
+		                    alert('이메일 발송 중 오류가 발생했습니다.'); 
+		                }
+		            });
+		        } else {
+		            alert('이메일을 입력해주세요.'); 
+		        }
+		    });
+
+		    $('#verifyEmailCode').click(function() {
+		        var email = $('#email').val();
+		        var code = $('#emailCode').val();
+
+		        $.ajax({
+		            type: 'POST',
+		            url: '/user/verify-code',
+		            contentType: 'application/json',
+		            data: JSON.stringify({ email: email, code: code }),
+		            success: function(response) {
+		                if (response.success) {
+		                    $('#codeVerificationResult').html('<div class="alert alert-success">' + response.message + '</div>');
+		                    emailVerified = true; 
+		                } else {
+		                    $('#codeVerificationResult').html('<div class="alert alert-danger">' + response.message + '</div>');
+		                    emailVerified = false; 
+		                }
+		            },
+		            error: function() {
+		                $('#codeVerificationResult').html('<div class="alert alert-danger">서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</div>');
+		                emailVerified = false; 
+		            }
+		        });
+		    });
+
+		    function pwCheck() {
+		        var pw1 = $('#pw1').val();
+		        var pw2 = $('#pw2').val();
+
+		        if (pw1 != '' && pw2 != '' && pw1 != pw2) {
+		            $('#pwConfirm').text('비밀번호가 일치하지 않습니다.').css('color', 'red');
+		            $('#pw2').css('border-color', 'red');
+		            return false; 
+		        } else {
+		            $('#pwConfirm').text('비밀번호가 일치합니다.').css('color', 'green');
+		            $('#pw2').css('border-color', 'green');
+		            return true; 
+		        }
+		    }
+
+		    $('#submitBtn').click(function() {
+		        if (!emailVerified) {
+		            alert('회원가입을 위해 이메일 인증이 필요합니다.');
+		        }
+		    });
+
+		    $('#pw1, #pw2').on('input', function() {
+		        pwCheck();
+		    });
+
+		    $('form').on('submit', function(e) {
+		        if (!emailVerified || !pwCheck()) {
+		            e.preventDefault(); 
+		            if (!emailVerified) {
+		                alert('이메일 인증을 완료해주세요.');
+		            } else {
+		                alert('비밀번호를 다시 한번 확인해주세요.');
+		            }
+		        }
+		    });
+		});
+
+    </script>
+</head>
+<body>
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>회원가입</h4>
+        </div>
+    </div>
+    <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div class="mb-3">
+            <label for="loginId" class="form-label">ID</label>
+            <input type="text" th:field="*{loginId}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input type="password" id="pw1" th:field="*{password1}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input type="password" id="pw2" th:field="*{password2}" class="form-control">
+            <div id="pwConfirm" style="margin-top: 0; padding-top: 0;"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" th:field="*{name}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일</label>
+            <input type="email" id="email" th:field="*{email}" class="form-control">			
+            <button type="button" class="btn" id="sendVerificationEmail">이메일 인증</button>
+			<br>
+            <div class="mb-3">				
+				<br>
+				<br>
+                <label for="emailCode" class="form-label">인증 코드</label>
+                <input type="text" id="emailCode" class="form-control">
+                <button type="button" class="btn" id="verifyEmailCode">인증 코드 확인</button>
+                <div id="codeVerificationResult"></div>
+            </div>
+        </div>
+		<br>
+        <div class="mb-3">
+			<br>
+            <label for="region" class="form-label">지역</label>
+            <select th:field="*{region}" class="form-control" id="region">
+                <option value="거제시">거제시</option>
+                <option value="고령군">고령군</option>
+                <option value="광주시">광주시</option>
+                <option value="단양군">단양군</option>
+                <option value="동두천시">동두천시</option>
+                <option value="봉화군">봉화군</option>
+                <option value="사천시">사천시</option>
+                <option value="양주시">양주시</option>
+                <option value="예천군">예천군</option>
+                <option value="완도군">완도군</option>
+                <option value="진도군">진도군</option>
+                <option value="청송군">청송군</option>
+                <option value="통영시">통영시</option>
+                <option value="파주시">파주시</option>
+                <option value="함평군">함평군</option>
+            </select>
+			<br>
+			<button type="submit" class="btn" id="submitBtn">회원가입</button>
+        </div>
+      
+    </form>
+</div>
+</body>
+</html>

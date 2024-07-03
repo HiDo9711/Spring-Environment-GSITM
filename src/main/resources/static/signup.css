@@ -1,0 +1,51 @@
+.container.my-3 {
+    border: 1px solid aliceblue;
+    border-radius: 15px;
+    width: 40%;
+    height: auto;
+    background-color: aliceblue;
+    padding: 40px;
+}
+
+.container.my-4 {
+    border: 1px solid aliceblue;
+    border-radius: 15px;
+    width: 40%;
+    height: 350px;
+    background-color: aliceblue;
+    padding: 0px;
+}
+
+.out{
+	background-color: rgb(248,248,248);
+	  height: auto;
+	  padding: 20px;
+	  border-radius: 15px;
+}
+
+.container.my-5 {
+    border: 1px solid aliceblue;
+    border-radius: 15px;
+    width: 40%;
+    height: 350px;
+    background-color: aliceblue;
+    padding: 15px;
+}
+button.btn {
+    margin-left: 10px;
+    margin-top:10px;
+    margin-bottom: 10px;
+    background-color: rgb(22,22,22);
+    color: white;
+}
+
+
+button.ctn {
+    margin-left: 20px;
+    background-color: rgb(22,22,22);
+    color: white;
+    border-radius: 6px;
+    width: 90.23px;
+    height: 38.21px;
+    margin-top: -6px;
+}

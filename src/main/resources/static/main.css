@@ -1,0 +1,103 @@
+
+.container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.box {
+    flex: 1;
+    padding: 5px;
+    text-align: center;
+    border-radius: 50px;
+    background-color: white;
+    border: 1px solid white;
+    margin: 4px;
+}
+.box p {
+    margin: 10px 0;
+}
+
+.apistandard {
+	font-size: 12px;
+}
+
+.title {
+    font-weight: bold;
+}
+.value {
+    font-weight: bold;
+    font-size: 40px;
+}
+.emoji {
+    margin-top: 10px;
+}
+.form-container {
+	text-align: center;
+	width: 50%;
+	 /* ì™¼ìª½ ì—¬ë°± ì¶”ê°€ */
+	height: auto;
+	padding: 5px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input,
+.form-group select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-group1{
+	display: flex;
+	justify-content: center;
+}
+.form-group1 button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgb(22,22,22);
+    color: #fff;
+    border: none;
+	border-radius: 10px;
+	
+}
+.form-group1 button:hover {
+    background-color: #0056b3;
+}
+h2 {
+	margin-top: 20px;
+	margin-left: 30px; /* ì™¼ìª½ ì—¬ë°± ì¶”ê°€ */
+	clear: both;
+	text-align: left;
+}
+
+.out{
+	background-color: rgb(248,248,248);
+	height: auto;
+	padding: 20px;
+	border-radius: 15px;
+	margin-top: 20px;
+}
+
+.out1 {
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: #e1ebef;
+    padding: 10px;
+}
+
+.out2 {
+    margin-top: 30px;
+}
+
+.no-underline {
+    text-decoration: none;
+    color: inherit;
+}

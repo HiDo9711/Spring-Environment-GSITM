@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>마이페이지</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<div layout:fragment="content" class="container my-3">
+    <div>
+		<div class="card-body">
+		                       <h2 class="card-title">작성자 정보</h2>
+							   <br>
+		                       <p class="card-text">아이디: <span th:text="${user.name}"></span></p>
+		                      
+		                 
+		               </div>
+					   <br>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+       
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="posts-tab" data-toggle="tab" data-tab="posts" type="button" role="tab" aria-controls="posts" aria-selected="false">작성한 게시글</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="comments-tab" data-toggle="tab" data-tab="comments" type="button" role="tab" aria-controls="comments" aria-selected="false">작성한 댓글</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+         
+
+            <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="info-tab">
+                <h2 class="mt-3">작성한 게시글</h2>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>게시글 번호</th>
+                            <th>제목</th>
+                            <th>작성일자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board : ${boards}">
+                            <td th:text="${board.boardNum}"></td>
+                            <td>
+                                <a th:href="@{/board/read/{id}(id=${board.boardNum})}" th:text="${board.title}"></a>
+                            </td>
+                            <td th:text="${board.createDate != null ? #temporals.format(board.createDate, 'yyyy-MM-dd') : ''}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                <h2 class="mt-3">작성한 댓글</h2>
+				<table class="table table-hover">
+				   <thead class="thead-dark">
+                        <tr>
+                          
+                            <th>댓글 내용</th>
+                            <th>게시글 제목</th>
+                            <th>작성일자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="comment : ${comments}">
+                    
+                            <td th:text="${comment.commentsContent}"></td>
+                            <td>
+                                <a th:href="@{/board/read/{id}(id=${comment.board.boardNum})}" th:text="${comment.board.title}"></a>
+                            </td>
+                            <td th:text="${comment.createDate != null ? #temporals.format(comment.createDate, 'yyyy-MM-dd') : ''}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/script.js}"></script>
+
+    <script>
+        document.querySelectorAll('.nav-link').forEach(function(element) {
+            element.addEventListener('click', function() {
+                let tabId = this.getAttribute('data-tab');
+                document.querySelectorAll('.nav-link').forEach(function(navLink) {
+                    navLink.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                document.querySelectorAll('.tab-pane').forEach(function(tabPane) {
+                    tabPane.classList.remove('show', 'active');
+                    if (tabPane.id === tabId) {
+                        tabPane.classList.add('show', 'active');
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+
+</html>

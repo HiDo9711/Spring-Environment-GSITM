@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+	
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+    <!-- sbb CSS -->
+	<link rel="stylesheet" href="/style.css">
+	<link rel="stylesheet" href="/layoutst.css">
+   
+</head>
+
+<body>
+    <nav th:fragment="navbarFragment" class="navbar navbar-expand-lg  border-bottom">
+        <div class="container-fluid">
+			
+            <a class="navbar-brand" href="/">
+				<img src="/water.jpg" alt="사진없음" width="50" height="50">
+				수질 모니터링</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+					       <!-- 제보게시판 링크 -->
+					       <a class="nav-link" th:href="@{/board/list}">제보게시판</a>
+					     </li>
+		 			 <li class="nav-item">
+					  		<!-- 회원가입/마이페이지 링크 -->
+							 <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+								 <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/mypage}">마이페이지</a>
+						</li>		                
+                    <li class="nav-item">
+                        <!-- 로그인/로그아웃 링크 -->
+                        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+                        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+    <th:block layout:fragment="content"></th:block>
+    <!-- 기본 템플릿 안에 삽입될 내용 End -->
+    <!-- 자바스크립트 Start -->
+    <th:block layout:fragment="script"></th:block>
+    <!-- 자바스크립트 End -->
+</body>
+
+</html>

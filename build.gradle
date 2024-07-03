@@ -1,0 +1,51 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'project'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// devtools 추가
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// lombok 설치 후 sts에서 사용하기 위한 설정
+	compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // h2 연결
+	runtimeOnly 'com.h2database:h2'
+	// jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // junit
+    testImplementation 'org.junit.jupiter:junit-jupiter' 
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+   
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	
+	implementation 'net.coobird:thumbnailator:0.4.14'
+	// 스프링 부트에서 이메일 기능을 쉽게 통합하고 사용할 수 있도록 해주는 스타터, 이를 통해 JavaMailSender를 사용하여 이메일을 보내는 작업을 단순화
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
