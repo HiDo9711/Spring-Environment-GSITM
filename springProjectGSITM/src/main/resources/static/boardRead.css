@@ -1,0 +1,64 @@
+/* 전체 body에 대한 기본 스타일링 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 게시글 조회 페이지 스타일링 */
+.board-details {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.board-details h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #9b59b6; /* 보라색 밑줄 추가 */
+    padding-bottom: 10px;
+}
+
+.board-details .detail-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd; /* 회색 선 추가 */
+    padding-bottom: 10px;
+}
+
+.board-details .detail-item:last-child {
+    border-bottom: none; /* 마지막 항목의 선 제거 */
+}
+
+.board-details strong {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* 수정하기, 삭제하기, 목록으로 버튼 스타일링 */
+.edit-button,
+.delete-button,
+.back-button {
+    display: inline-block;
+    background-color: #9b59b6; /* 연한 보라색 */
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px; /* 폰트 크기 설정 */
+}
+
+.edit-button:hover,
+.delete-button:hover,
+.back-button:hover {
+    background-color: #8e44ad; /* 더 진한 보라색 */
+}
